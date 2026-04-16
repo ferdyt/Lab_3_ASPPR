@@ -910,6 +910,12 @@ Matrix DelNegtiveElements(Matrix matrix)
 void SolveMatrixGame()
 {
     Matrix matrix = InputManager.InputMatrix();
+
+    if (FindMinElement(matrix) < 0)
+    {
+        matrix = DelNegtiveElements(matrix);
+    }
+
     int bottomPrice = BottomPrice(matrix);
     int topPrice = TopPrice(matrix);
 
@@ -919,11 +925,6 @@ void SolveMatrixGame()
     if (bottomPrice != topPrice)
     {
         Console.WriteLine("Гра не має чистої стратегiї.");
-
-        if (FindMinElement(matrix) < 0)
-        {
-            matrix = DelNegtiveElements(matrix);
-        }
 
         matrix = AddOnes(matrix);
         matrix.InitializeHeaders();
