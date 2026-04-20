@@ -1,5 +1,6 @@
 ﻿using Lab_1_part_C_asppr;
 using Lab_1_part_D_asppr;
+using System.Security.Cryptography;
 
 int choice = 0;
 Matrix? optimalMatrix = null;
@@ -174,7 +175,7 @@ double[] GetResultXdoubleForFindFractial(Matrix matrix)
 string GetResultX(Matrix matrix)
 {
     double[] xValues = GetResultXdouble(matrix);
-    string result = "X = (" + string.Join("; ", xValues.Select(v => v.ToString("F2"))) + ")";
+    string result = "X = (" + string.Join("; ", xValues.Select(v => v.ToString("F5"))) + ")";
     return result;
 }
 
@@ -211,7 +212,7 @@ double[] GetResultUdouble(Matrix matrix)
 string GetResultU(Matrix matrix)
 {
     double[] uValues = GetResultUdouble(matrix);
-    string result = "U = (" + string.Join("; ", uValues.Select(v => v.ToString("F2"))) + ")";
+    string result = "U = (" + string.Join("; ", uValues.Select(v => v.ToString("F5"))) + ")";
     return result;
 }
 
@@ -907,6 +908,86 @@ Matrix DelNegtiveElements(Matrix matrix)
     return newMatrix;
 }
 
+int GetStrategy(double value, double[] strategies)
+{
+    double accumulated = 0;
+
+    for (int i = 0; i < strategies.Length; i++)
+    {
+        accumulated += strategies[i];
+
+        if (value <= accumulated)
+        {
+            return i;
+        }
+    }
+
+    return strategies.Length - 1;
+}
+
+void ModelingResult(double[,] randomNumbers, double[] X, double[] Y, Matrix matrix)
+{
+    string rowTemplate = "{0,-10} | {1,-10} | {2,-10} | {3,-10} | {4,-10} | {5,-10} | {6,-10} | {7,-10}";
+
+    Console.WriteLine(rowTemplate, "Номер", "Випадкове", "Стратегiя", "Випадкове", "Стратегiя", "Виграш A", "Накопич.", "Середнiй");
+    Console.WriteLine(rowTemplate, "Партiї", "число A", "гравця A", "число B", "гравця B", "", "виграш A", "виграш A");
+    Console.WriteLine(new string('-', 101));
+
+    double cumulativeWinA = 0;
+    double averageWinA = 0;
+    int gamesCount = randomNumbers.GetLength(0);
+
+    double[] newX = new double[X.Length];
+    double[] newY = new double[Y.Length];
+
+    for (int i = 0; i < gamesCount; i++)
+    {
+        int strategyA = GetStrategy(randomNumbers[i, 0], X);
+        int strategyB = GetStrategy(randomNumbers[i, 1], Y);
+
+        string strategyAString = matrix.RowHeaders[strategyA];
+        string strategyBString = matrix.ColumnHeaders[strategyB];
+
+        for (int j = 0; j < X.Length; j++)
+        {
+            if (strategyA == j)
+            {
+                newX[j] += 1;
+            }
+        }
+
+        for (int j = 0; j < Y.Length; j++)
+        {
+            if (strategyB == j)
+            {
+                newY[j] += 1;
+            }
+        }
+
+        double winA = matrix[strategyA, strategyB];
+        cumulativeWinA += winA;
+        averageWinA = Math.Round(cumulativeWinA / (i + 1), 5);
+        Console.WriteLine(rowTemplate, i + 1, randomNumbers[i, 0], strategyAString, randomNumbers[i, 1], strategyBString, winA, cumulativeWinA, averageWinA);
+    }
+
+    for (int i = 0; i < newX.Length; i++)
+    {
+        newX[i] = newX[i] / gamesCount;
+    }
+
+    for (int i = 0; i < newY.Length; i++)
+    {
+        newY[i] = newY[i] / gamesCount;
+    }
+
+    string resultX = "X = (" + string.Join("; ", newX.Select(v => v.ToString("F5"))) + ")";
+    string resultY = "Y = (" + string.Join("; ", newY.Select(v => v.ToString("F5"))) + ")";
+    Console.WriteLine("\nПiдсумковi стратегії:");
+    Console.WriteLine(resultX);
+    Console.WriteLine(resultY);
+    Console.WriteLine($"v = {averageWinA}");
+}
+
 void SolveMatrixGame()
 {
     Matrix matrix = InputManager.InputMatrix();
@@ -929,37 +1010,70 @@ void SolveMatrixGame()
         matrix = AddOnes(matrix);
         matrix.InitializeHeaders();
         matrix.InitializeDualHeaders();
+        Matrix initialMatrix = matrix.Clone();
+
+        for (int i = 0; i < initialMatrix.Rows; i++)
+        {
+            for (int j = 0; j < initialMatrix.Columns; j++)
+            {
+                if (i == j)
+                {
+                    initialMatrix.SwapHeaders(i, j);
+                }
+            }
+        }
+
         Console.WriteLine("\nПочаткова таблиця для розв\'язання гри:");
         matrix.PrintMatrixWithDualHeaders();
-        /*
-        if (matrix.Rows == 2 || matrix.Columns == 2 || matrix.Rows == 2 && matrix.Columns == 2)
-        {
-            Console.WriteLine("Розв\'язання методом графiчного аналiзу...");
-            
-
-
-            return;
-        }*/
 
         Console.WriteLine("Розв\'язання симплекс методом...");
         matrix = DualInputFindOptimalSolution(matrix);
         matrix.PrintMatrixWithDualHeaders();
         Console.WriteLine(GetResultX(matrix));
         Console.WriteLine(GetResultU(matrix));
+        matrix.ShowMinW();
 
         double v = matrix[matrix.Rows - 1, matrix.Columns - 1];
         v = 1/v;
         double[] newX = GetResultXdouble(matrix).Select(x => x * v).ToArray();
         double[] newU = GetResultUdouble(matrix).Select(u => u * v).ToArray();
-        Console.WriteLine("Стратегії:");
-        Console.WriteLine("Xo = (" + string.Join("; ", newX.Select(x => x.ToString("F2"))) + ")");
-        Console.WriteLine("Yo = (" + string.Join("; ", newU.Select(u => u.ToString("F2"))) + ")");
+        Console.WriteLine("Стратегiї:");
+        Console.WriteLine("Xo = (" + string.Join("; ", newU.Select(u => u.ToString("F5"))) + ")");
+        Console.WriteLine("Yo = (" + string.Join("; ", newX.Select(x => x.ToString("F5"))) + ")");
+        Console.WriteLine($"Цiна гри: {v}");
 
-        matrix.AdjustmentNumber = v - matrix.AdjustmentNumber;
+        Console.Write("Чи потрiбне моделювання? (y/n):");
+        bool choice = Console.ReadLine()?.Trim().ToLower() == "y" ? true : false;
+
+        if (choice)
+        {
+            Console.Write("\nВведiть кiлькiсть партiй: ");
+            int gamesCount = int.TryParse(Console.ReadLine(), out int count) ? count : 0;
+
+            if (gamesCount > 0)
+            {
+                byte[] bytes = new byte[8];
+                double[,] randomNumbers = new double[gamesCount,2];
+
+                for (int i = 0; i < gamesCount; i++)
+                {
+                    for (int j = 0; j < 2; j++)
+                    {
+                        RandomNumberGenerator.Fill(bytes);
+                        ulong ul = BitConverter.ToUInt64(bytes, 0);
+                        double r = (double)ul / ulong.MaxValue;
+                        randomNumbers[i, j] = Math.Round(Math.Abs(r % 1), 5);
+                    }
+                }
+                Console.WriteLine("Результати моделювання:\n");
+
+                ModelingResult(randomNumbers, newU, newX, initialMatrix);
+            }
+        }
     }
     else
     {
-        Console.WriteLine($"Гра має чисту стратегію з ціною {bottomPrice}.");
+        Console.WriteLine($"Гра має чисту стратегiю з цiною {bottomPrice}.");
     }
 }
 
