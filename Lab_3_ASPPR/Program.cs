@@ -1073,6 +1073,9 @@ void SolveMatrixGame()
     }
     else
     {
+        matrix.InitializeHeaders();
+        matrix.InitializeDualHeaders();
+        matrix.PrintMatrixWithDualHeaders();
         Console.WriteLine($"Гра має чисту стратегiю з цiною {bottomPrice}.");
     }
 }
