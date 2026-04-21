@@ -51,3 +51,43 @@
 Після обрахунку матриця зводиться до виду:
 
 <img width="90" height="137" alt="Знімок екрана 2026-04-21 155910" src="https://github.com/user-attachments/assets/9c0d6614-935d-4d4b-bbe8-d7790364ac5f" />
+
+## Тестові випадки
+### Тестовий випадок 1
+Вхідна матриця:
+
+<img width="143" height="124" alt="image" src="https://github.com/user-attachments/assets/b0fb7a58-5d2c-4918-af5d-447fc2560ef2" />
+
+Результат обчислення матриці симплекс методом:
+
+<img width="379" height="921" alt="image" src="https://github.com/user-attachments/assets/8285b12c-37de-49d5-8816-b6679518a047" />
+
+Результати моделювання на 100 партіях:
+
+<img width="1208" height="927" alt="image" src="https://github.com/user-attachments/assets/f6c784a2-fbe3-45e4-8891-f46c80668db2" />
+
+### Тестовий випадок 2
+Вхідна матриця:
+
+<img width="180" height="131" alt="image" src="https://github.com/user-attachments/assets/4033abd1-f1d0-4a55-a6a0-f011e1232483" />
+
+Результат обчислення матриці симплекс методом:
+
+<img width="547" height="925" alt="image" src="https://github.com/user-attachments/assets/4f2ff564-a438-44cb-a630-ef18ff920a47" />
+
+Результати моделювання на 100 партіях:
+
+<img width="1133" height="936" alt="image" src="https://github.com/user-attachments/assets/b4f07a50-7362-4833-a43c-373cd40d14e9" />
+
+### Тестовий випадок 3
+Вхідна матриця:
+
+<img width="163" height="97" alt="image" src="https://github.com/user-attachments/assets/ed94e6a6-5231-4301-8a0f-9e3fbbfc44b0" />
+
+Результат обчислення матриці симплекс методом:
+
+<img width="502" height="914" alt="image" src="https://github.com/user-attachments/assets/957d7c90-a127-496c-888c-c4e417dc9340" />
+
+Результати моделювання на 100 партіях:
+
+<img width="998" height="938" alt="image" src="https://github.com/user-attachments/assets/d76bfb19-87df-4e44-8daf-eb8f2026c5db" />
