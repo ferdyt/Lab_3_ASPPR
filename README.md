@@ -5,6 +5,7 @@
 - Моделювання матричних ігор;
 
 ## Виконання роботи
+## Варіант 6
 ### Розв'язання матриці A1
 Вхідна матриця A1:
 
@@ -19,7 +20,7 @@
 
 <img width="103" height="95" alt="image" src="https://github.com/user-attachments/assets/77d81a6b-663e-4ced-b35b-478f0d7cecdc" />
 
-Результат обчислення матриці:
+Результат обчислення матриці симплекс методом:
 
 <img width="491" height="475" alt="image" src="https://github.com/user-attachments/assets/5a89fe91-19f1-48ae-860f-94d16edaf763" />
 <img width="484" height="878" alt="image" src="https://github.com/user-attachments/assets/389210dc-1a7b-4f43-b322-e625822f2bfa" />
@@ -33,3 +34,20 @@
 
 <img width="1856" height="920" alt="image" src="https://github.com/user-attachments/assets/91ca76a3-48ea-4809-ba00-80156e62642d" />
 <img width="1857" height="922" alt="image" src="https://github.com/user-attachments/assets/d21e7340-4074-493a-a5ca-1ef7b31a3237" />
+
+### Розв'язання матриці A3
+Вхідна матриця A3:
+
+<img width="90" height="137" alt="image" src="https://github.com/user-attachments/assets/d37628bb-c232-47a0-a308-3009e8fa6178" />
+
+Результат обчислення матриці симплекс методом:
+
+<img width="429" height="916" alt="image" src="https://github.com/user-attachments/assets/209c35e4-cb3a-4238-a2b3-7b5c5a26cbc4" />
+
+Розв'язок графіко-аналітичним методом:
+
+<img width="1400" height="916" alt="image" src="https://github.com/user-attachments/assets/22a43de0-84ac-4adf-be69-2bff802528f7" />
+
+Після обрахунку матриця зводиться до виду:
+
+<img width="90" height="137" alt="Знімок екрана 2026-04-21 155910" src="https://github.com/user-attachments/assets/9c0d6614-935d-4d4b-bbe8-d7790364ac5f" />
