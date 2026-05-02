@@ -825,14 +825,16 @@ Matrix AddOnes(Matrix matrix)
     newArray[matrix.Rows, matrix.Columns] = 0;
 
     Matrix newMatrix = new Matrix(newArray);
+    newMatrix.AdjustmentNumber = matrix.AdjustmentNumber;
 
     return newMatrix;
 }
 
-int BottomPrice(Matrix matrix)
+int[] BottomPrice(Matrix matrix)
 {
     int minValue = int.MaxValue;
     int[] arrValue = new int[matrix.Rows];
+    int[] indexes = new int[2];
 
     for (int i = 0; i < matrix.Rows; i++)
     {
@@ -841,19 +843,22 @@ int BottomPrice(Matrix matrix)
             if (matrix[i, j] < minValue)
             {
                 minValue = (int)matrix[i, j];
+                indexes[0] = i;
+                indexes[1] = j;
             }
         }
         arrValue[i] = minValue;
         minValue = int.MaxValue;
     }
 
-    return arrValue.Max();
+    return indexes;
 }
 
-int TopPrice(Matrix matrix)
+int[] TopPrice(Matrix matrix)
 {
     int maxValue = int.MinValue;
     int[] arrValue = new int[matrix.Columns];
+    int[] indexes = new int[2];
 
     for (int j = 0; j < matrix.Columns; j++)
     {
@@ -862,13 +867,15 @@ int TopPrice(Matrix matrix)
             if (matrix[i, j] > maxValue)
             {
                 maxValue = (int)matrix[i, j];
+                indexes[0] = i;
+                indexes[1] = j;
             }
         }
         arrValue[j] = maxValue;
         maxValue = int.MinValue;
     }
 
-    return arrValue.Min();
+    return indexes;
 }
 
 int FindMinElement(Matrix matrix)
@@ -997,11 +1004,11 @@ void SolveMatrixGame()
         matrix = DelNegtiveElements(matrix);
     }
 
-    int bottomPrice = BottomPrice(matrix);
-    int topPrice = TopPrice(matrix);
+    int[] bottomPrice = BottomPrice(matrix);
+    int[] topPrice = TopPrice(matrix);
 
-    Console.WriteLine($"Нижня цiна гри {bottomPrice}");
-    Console.WriteLine($"Верхня цiна гри {topPrice}");
+    Console.WriteLine($"Нижня цiна гри {matrix[bottomPrice[0],bottomPrice[1]]} (рядок {bottomPrice[0]}, стовпець {bottomPrice[1]})");
+    Console.WriteLine($"Верхня цiна гри {matrix[topPrice[0], topPrice[1]]} (рядок {topPrice[0]}, стовпець {topPrice[1]})");
 
     if (bottomPrice != topPrice)
     {
@@ -1035,6 +1042,7 @@ void SolveMatrixGame()
 
         double v = matrix[matrix.Rows - 1, matrix.Columns - 1];
         v = 1/v;
+        v = v - matrix.AdjustmentNumber;
         double[] newX = GetResultXdouble(matrix).Select(x => x * v).ToArray();
         double[] newU = GetResultUdouble(matrix).Select(u => u * v).ToArray();
         Console.WriteLine("Стратегiї:");
