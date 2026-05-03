@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Lab_1_part_C_asppr
+namespace Lab_3_ASPPR
 {
     internal class RankCalculator
     {

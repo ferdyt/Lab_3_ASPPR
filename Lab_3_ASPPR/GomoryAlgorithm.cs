@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 
-namespace Lab_1_part_D_asppr
+namespace Lab_3_ASPPR
 {
     internal static class GomoryAlgorithm
     {

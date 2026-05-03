@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Text;
 
-namespace Lab_1_part_C_asppr
+namespace Lab_3_ASPPR
 {
     internal class SystemCalculator
     {

@@ -1,5 +1,4 @@
-﻿using Lab_1_part_C_asppr;
-using Lab_1_part_D_asppr;
+﻿using Lab_3_ASPPR;
 using System.Security.Cryptography;
 
 int choice = 0;
